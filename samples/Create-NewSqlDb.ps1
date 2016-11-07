@@ -10,18 +10,18 @@
         $WebhookHeaders =   $WebhookData.RequestHeader
         $WebhookBody    =   $WebhookData.RequestBody
 
-        # Collect individual headers. VMList converted from JSON.
+        # Collect individual headers. ArgList converted from JSON.
         $From = $WebhookHeaders.From
-        $VMList = ConvertFrom-Json -InputObject $WebhookBody
+        $ArgList = ConvertFrom-Json -InputObject $WebhookBody
         Write-Output "Runbook started from webhook $WebhookName by $From."
 
 
         # Obtain the WebhookBody containing the AlertContext
         #$WebhookBody = (ConvertFrom-Json -InputObject $WebhookBody)
-        $ReqContext = [object]$VMList.context
+        $ReqContext = [object]$ArgList.context
         
         # Start each virtual machine
-        foreach ($VM in $VMList)
+        foreach ($VM in $ArgList)
         {
             $RemoteComputer = $VM.RemoteComputer
             $SqlInstance = $VM.SqlInstance
